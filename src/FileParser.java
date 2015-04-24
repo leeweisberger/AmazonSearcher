@@ -8,6 +8,7 @@ import java.util.Map;
 
 
 
+
 public class FileParser {
 
 	public static Map<String, Map<String,Double>> readFileToMap(String file){
@@ -43,7 +44,8 @@ public class FileParser {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
+
 		return minPriceMap;
 	}
 }
