@@ -1,5 +1,6 @@
 
 
+
 public class ConditionConstants {
 	public static final String CHOOSE = "Choose";
 	public enum Condition {

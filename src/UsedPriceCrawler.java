@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -69,16 +70,16 @@ public class UsedPriceCrawler {
 		}
 
 		userAgent = navigateToPricePage(userAgent);
-		Map<String, Double> priceMap = new HashMap<>();
+		Map<String, Double> priceMap = new HashMap<String, Double>();
 		getBestPrices(userAgent, priceMap);
 		return priceMap;
 	}
 
 	private void getBestPrices(UserAgent userAgent, Map<String, Double> priceMap){
-		List<String> conditionList = new ArrayList<>();
-		List<Double> preShipPriceList = new ArrayList<>();
-		List<Double> priceList = new ArrayList<>();
-		List<Double> shippingList = new ArrayList<>();
+		List<String> conditionList = new ArrayList<String>();
+		List<Double> preShipPriceList = new ArrayList<Double>();
+		List<Double> priceList = new ArrayList<Double>();
+		List<Double> shippingList = new ArrayList<Double>();
 
 		if(isOnLastPage(userAgent))
 			return;
@@ -200,7 +201,7 @@ public class UsedPriceCrawler {
 		return null;
 	}
 	private String requestURLFromASIN(String asin, SignedRequestsHelper helper){
-		Map<String, String> request = new HashMap<>();
+		Map<String, String> request = new HashMap<String, String>();
 		request.put("Service", "AWSECommerceService");
 		request.put("AssociateTag", ASSOCIATE_TAG);
 		request.put("Operation", "ItemLookup");
