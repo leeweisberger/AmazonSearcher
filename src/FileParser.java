@@ -27,6 +27,8 @@ public class FileParser {
 
 		//Read File Line By Line
 		try {
+			//skip the first line
+			line=br.readLine();
 			while ((line = br.readLine()) != null)   {
 				String[] itemArray = line.split(",");
 				Map<String,Double> conditionMap = new HashMap<String, Double>();
