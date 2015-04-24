@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metadata>
-  <groupId>javax.mail</groupId>
-  <artifactId>mail</artifactId>
+  <groupId>com.jaunt</groupId>
+  <artifactId>jaunt</artifactId>
   <versioning>
-    <release>1.4.4</release>
+    <release>0.9.9.8</release>
     <versions>
-      <version>1.4.4</version>
+      <version>0.9.9.8</version>
     </versions>
     <lastUpdated>20150424194029</lastUpdated>
   </versioning>
