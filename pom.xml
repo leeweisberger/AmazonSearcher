@@ -7,7 +7,7 @@
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<plugins>
-			
+
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>appassembler-maven-plugin</artifactId>
@@ -48,11 +48,9 @@
 			<version>1.10</version>
 		</dependency>
 		<dependency>
-			<groupId>jaunt</groupId>
+			<groupId>com.google.code</groupId>
 			<artifactId>jaunt</artifactId>
 			<version>0.9.9.8</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/jaunt0.9.9.8.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
