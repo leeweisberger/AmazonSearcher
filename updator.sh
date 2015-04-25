@@ -1,10 +1,13 @@
 #!/bin/bash
-
-function herokuLogin {
+function echoCreds {
 	username="lee.weisberger@duke.edu"
 	password="weis1993"
 
-	heroku login <(echo $username) <(echo $password)
+	echo $username
+	echo $password
+}
+function herokuLogin {
+	echoCreds | heroku login
 }
 
 function pushChanges {
