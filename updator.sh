@@ -1,7 +1,7 @@
 #!/bin/bash
 function echoCreds {
 	username="lee.weisberger@duke.edu"
-	password="weis1993"
+	password="password"
 
 	echo $username
 	echo $password
@@ -16,9 +16,14 @@ function pushChanges {
 	git push heroku master
 }
 
+function runScript {
+	heroku run sh target/bin/finder
+}
 
-# herokuLogin
+
+herokuLogin
 pushChanges
+runScript
 
 
 

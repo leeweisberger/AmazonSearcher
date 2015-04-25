@@ -18,8 +18,8 @@ import com.jaunt.ResponseException;
 import com.jaunt.UserAgent;
 
 public class UsedPriceCrawler {
-	private  final String AWS_ACCESS_KEY_ID = "AKIAJOW2U4KNIN6MRJDQ";
-	private  final String AWS_SECRET_KEY = "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";
+	private  final String AWS_ACCESS_KEY_ID = "AKIAJFNWOUZ6XQY3DZYQ";
+	private  final String AWS_SECRET_KEY = "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";
 	private  final String ENDPOINT = "webservices.amazon.com";
 	private  final String ASSOCIATE_TAG = "bookseller03-20";
 
