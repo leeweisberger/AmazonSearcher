@@ -17,7 +17,7 @@ function pushChanges {
 }
 
 
-herokuLogin
+# herokuLogin
 pushChanges
 
 
