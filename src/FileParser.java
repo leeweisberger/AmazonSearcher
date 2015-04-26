@@ -31,13 +31,16 @@ public class FileParser {
 			line=br.readLine();
 			while ((line = br.readLine()) != null)   {
 				String[] itemArray = line.split(",");
+				if(itemArray.length==0)continue;
+				String asin = Isbn13to10(itemArray[0]);
 				Map<String,Double> conditionMap = new HashMap<String, Double>();
 				for(int i=1; i<itemArray.length; i+=2){
 					String formattedCondition = ConditionConstants.getFileFromReadable(itemArray[i]);
 					conditionMap.put(formattedCondition, Double.valueOf(itemArray[i+1]));
 				}
-				minPriceMap.put(itemArray[0], conditionMap);
-				line = br.readLine();
+
+
+				minPriceMap.put(asin, conditionMap);
 			}
 			br.close();
 		} catch (NumberFormatException e) {
@@ -50,5 +53,25 @@ public class FileParser {
 
 
 		return minPriceMap;
+	}
+
+	private static String Isbn13to10(String isbn13)
+	{
+		isbn13 = isbn13.replace("-", "").replaceAll(" ", "").trim();
+		if(isbn13.length()!=13)
+			return isbn13;
+		String isbn10 = isbn13.substring(3, 12);
+		int checksum = 0;
+		int val;
+		int l = isbn10.length();
+		for (int i = 0; i < l; i++) {
+			val = isbn10.charAt(i) - '0';
+
+			checksum += val * (10-i);
+		}
+		int mod = checksum % 11;
+		char check= mod == 0 ? '0' : mod == 1 ? 'X' : (char)((11-mod) + '0');
+
+		return isbn10+check;
 	}
 }

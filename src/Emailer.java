@@ -1,4 +1,5 @@
 
+import java.text.NumberFormat;
 import java.util.Map;
 import java.util.Properties;
 
@@ -18,7 +19,7 @@ public class Emailer {
 	public static String EMAIL_PASSWORD = "emailerpassword";
 	public static String EMAIL_TO = "lweisberger5@gmail.com";
 	public static String EMAIL_SUBJECT = "An Item Has Dropped Below Your Price Threshold!";
-	
+
 	/**
 	 * Send email.
 	 *
@@ -26,19 +27,22 @@ public class Emailer {
 	 * @param asin the asin
 	 * @param threshMap the given map with price thresholds
 	 */
-	public static void sendEmail(Map<String, Double> underMap, String asin, Map<String,Double> threshMap){
+	public static void sendEmail(Map<String, Map<String, Double>> underMap, Map<String, Map<String, Double>> minPriceMap){
 		StringBuilder body = new StringBuilder();
-		body.append("Good news! Item with asin " + asin + " has dropped below your threshold in one or more catagories: \n\n");
-		for(String condition : underMap.keySet()){
-			body.append(ConditionConstants.getReadableFromFile(condition));
-			body.append(": " + "Your threshold was " + threshMap.get(condition) + " and the new price is " + underMap.get(condition));
-			body.append("\n\n");
+		NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
+		for(String asin : underMap.keySet()){
+			body.append("Good news! Item with asin " + asin + " has dropped below your threshold in one or more catagories: \n\n");
+			for(String condition : underMap.get(asin).keySet()){
+				body.append(ConditionConstants.getReadableFromFile(condition));
+				body.append(": " + "Your threshold was " + currencyFormatter.format(minPriceMap.get(asin).get(condition)) + " and the new price is " + currencyFormatter.format(underMap.get(asin).get(condition)));
+				body.append("\n\n");
+			}
 		}
 		body.append("Happy Shopping!");
-		
+
 		sendEmail(EMAIL_FROM, EMAIL_PASSWORD, EMAIL_TO, EMAIL_SUBJECT, body.toString());
 	}
-	
+
 	private static void sendEmail(final String from, final String password, final String to,
 			String subject, String body) {
 		String host = "smtp.gmail.com";
@@ -70,5 +74,7 @@ public class Emailer {
 			mex.printStackTrace();
 		}
 	}
+
+
 
 }

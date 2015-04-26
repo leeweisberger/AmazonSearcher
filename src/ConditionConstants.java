@@ -5,10 +5,11 @@ public class ConditionConstants {
 	public static final String CHOOSE = "Choose";
 	public enum Condition {
 
-		ACCEPTABLE("Acceptable", "Used-Acceptable"),
-		GOOD("Good","Used-Good"),
-		VERY_GOOD("Very Good","Used-VeryGood"),
-		LIKE_NEW("Like New", "Used-LikeNew");
+		ACCEPTABLE("A", "Used-Acceptable"),
+		GOOD("G","Used-Good"),
+		VERY_GOOD("VG","Used-VeryGood"),
+		LIKE_NEW("LN", "Used-LikeNew"),
+		NEW("N","New");
 
 		private String readableName;
 		private String fileName;

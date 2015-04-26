@@ -26,7 +26,9 @@ public class UsedPriceCrawler {
 	private Map<String, Double> minPriceMap;
 	private String asin;
 	//This is the lowest of the min Prices so that we know when to stop searching
-	double maxMinPrice=0;
+	private double maxMinPrice=0;
+	private boolean exceededMaxMin=false;
+	
 
 	/**
 	 * Instantiates a new used price crawler.
@@ -57,10 +59,58 @@ public class UsedPriceCrawler {
 			return null;
 		}
 		String url = requestURLFromASIN(asin, helper);
-		return getBestPrices(url);
+		Map<String, Double> priceMap = new HashMap<String, Double>();
+		if(minPriceMap.containsKey(ConditionConstants.Condition.NEW.getFileName())){
+			Double bestNewPrice = getBestNewPrice(url);
+			if(bestNewPrice<=minPriceMap.get(ConditionConstants.Condition.NEW.getFileName()))
+				priceMap.put(ConditionConstants.Condition.NEW.getFileName(), bestNewPrice);
+			if(minPriceMap.size()==1)
+				return priceMap;
+		}
+		
+		priceMap.putAll(getBestUsedPrices(url));
+		return priceMap;
 	}
 
-	private Map<String, Double> getBestPrices(String url){
+	private Double getBestNewPrice(String url) {
+		UserAgent userAgent = new UserAgent();
+		try {
+			userAgent.visit(url);
+		} catch (ResponseException e) {
+			e.printStackTrace();
+			return null;
+		}
+		userAgent = navigateToNewPricePage(userAgent);
+		Element priceElement;
+		Element shippingElement;
+		try {
+			priceElement = userAgent.doc.findFirst("<span class=\"a-size-large a-color-price olpOfferPrice a-text-bold\">");
+			shippingElement = userAgent.doc.findFirst("<p class=\"olpShippingInfo\">");
+		} catch (NotFound e) {
+			return Double.MAX_VALUE;
+		}
+		Double price = Double.valueOf(priceElement.getText().trim().replaceAll(" ", "").substring(1));
+		Double shipping =0.0;
+		if(!shippingElement.innerText().toLowerCase().contains("free")){
+			String shippingPrice = shippingElement.innerText().trim().replaceAll(" ","").replaceAll("\n","").replaceAll("shipping", "");
+			shippingPrice = shippingPrice.substring(2);
+			shipping = Double.valueOf(shippingPrice);
+		}
+		return price+shipping;
+	}
+
+	private UserAgent navigateToUsedPricePage(UserAgent userAgent) {
+		try {
+			userAgent.visit("http://www.amazon.com/gp/offer-listing/" + asin + "/ref=dp_olp_used?ie=UTF8&condition=used");
+		} catch (ResponseException e) {
+			e.printStackTrace();
+		}
+		return userAgent;
+	}
+	
+	
+
+	private Map<String, Double> getBestUsedPrices(String url){
 		UserAgent userAgent = new UserAgent();
 		try {
 			userAgent.visit(url);
@@ -69,13 +119,14 @@ public class UsedPriceCrawler {
 			return null;
 		}
 
-		userAgent = navigateToPricePage(userAgent);
+		userAgent = navigateToUsedPricePage(userAgent);
 		Map<String, Double> priceMap = new HashMap<String, Double>();
-		getBestPrices(userAgent, priceMap);
+		getBestUsedPrices(userAgent, priceMap);
 		return priceMap;
 	}
 
-	private void getBestPrices(UserAgent userAgent, Map<String, Double> priceMap){
+	private void getBestUsedPrices(UserAgent userAgent, Map<String, Double> priceMap){
+		if(exceededMaxMin)return;
 		List<String> conditionList = new ArrayList<String>();
 		List<Double> preShipPriceList = new ArrayList<Double>();
 		List<Double> priceList = new ArrayList<Double>();
@@ -90,7 +141,7 @@ public class UsedPriceCrawler {
 
 		Elements prices = userAgent.doc.findEvery("<span class=\"a-size-large a-color-price olpOfferPrice a-text-bold\">");
 		for(Element price : prices){
-			preShipPriceList.add(Double.valueOf(price.getText().trim().replaceAll(" ", "").substring(1)));
+			preShipPriceList.add(Double.valueOf(price.getText().trim().replaceAll(" ", "").replaceAll(",", "").substring(1)));
 		}
 
 
@@ -109,14 +160,14 @@ public class UsedPriceCrawler {
 		for(int i=0; i<shippingList.size(); i++){
 			double newPrice = preShipPriceList.get(i) + shippingList.get(i);
 			if(newPrice>maxMinPrice)
-				return;
+				exceededMaxMin=true;
 			priceList.add(i, newPrice);
 		}
 
 		addToMap(priceMap, conditionList, priceList);
 		if(priceMap.size() != minPriceMap.size()){
 			userAgent = navigateToNextPricePage(userAgent);
-			getBestPrices(userAgent, priceMap);
+			getBestUsedPrices(userAgent, priceMap);
 		}
 
 	}
@@ -177,28 +228,13 @@ public class UsedPriceCrawler {
 		return null;
 	}
 
-	private UserAgent navigateToPricePage(UserAgent userAgent){
-		Element selectedCover;
+	private UserAgent navigateToNewPricePage(UserAgent userAgent){
 		try {
-			selectedCover = userAgent.doc.findFirst("<li class=\"swatchElement selected\">");
-		} catch (NotFound e1) {
-			e1.printStackTrace();
-			return null;			
+			userAgent.visit("http://www.amazon.com/gp/offer-listing/" + asin +"/ref=olp_tab_new?ie=UTF8&condition=new");
+		} catch (ResponseException e) {
+			e.printStackTrace();
 		}
-		Elements links = selectedCover.findEvery("<a>");
-		for(Element link : links){
-			try{
-				String linkName = link.getAt("href");
-				if(linkName.contains("offer-listing") && linkName.contains("condition=used")){
-					userAgent.visit(linkName);
-					return userAgent;
-				}
-			}
-			catch(JauntException e){
-				continue;
-			}
-		}
-		return null;
+		return userAgent;
 	}
 	private String requestURLFromASIN(String asin, SignedRequestsHelper helper){
 		Map<String, String> request = new HashMap<String, String>();
