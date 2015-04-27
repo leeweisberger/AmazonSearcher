@@ -1,4 +1,5 @@
 #!/bin/bash
+cd "$(dirname "$0")"
 function echoCreds {
 	username="lee.weisberger@duke.edu"
 	password="password"
@@ -24,7 +25,6 @@ function runScript {
 herokuLogin
 pushChanges
 runScript
-
 
 
 
