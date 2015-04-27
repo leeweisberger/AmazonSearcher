@@ -17,7 +17,7 @@ public class Emailer {
 
 	public static String EMAIL_FROM = "amazon.updator@gmail.com";
 	public static String EMAIL_PASSWORD = "emailerpassword";
-	public static String EMAIL_TO = "lweisberger5@gmail.com";
+	public static String EMAIL_TO = "amyngilbert@gmail.com";
 	public static String EMAIL_SUBJECT = "An Item Has Dropped Below Your Price Threshold!";
 
 	/**
