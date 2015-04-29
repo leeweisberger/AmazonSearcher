@@ -11,7 +11,14 @@ import java.util.Map;
 
 
 public class FileParser {
+	
 
+	/**
+	 * Read csv file containing asins, conditions, and prices to map.
+	 *
+	 * @param file the file to read
+	 * @return the map mapping asin to a map of conditions and prices
+	 */
 	public static Map<String, Map<String,Double>> readFileToMap(String file){
 		Map<String, Map<String,Double>> minPriceMap = new HashMap<String, Map<String,Double>>();
 
@@ -32,9 +39,10 @@ public class FileParser {
 			while ((line = br.readLine()) != null)   {
 				String[] itemArray = line.split(",");
 				if(itemArray.length==0)continue;
-				String asin = Isbn13to10(itemArray[0]);
+				if(!itemArray[0].equals("X"))continue;
+				String asin = Isbn13to10(itemArray[1]);
 				Map<String,Double> conditionMap = new HashMap<String, Double>();
-				for(int i=1; i<itemArray.length; i+=2){
+				for(int i=2; i<itemArray.length; i+=2){
 					String formattedCondition = ConditionConstants.getFileFromReadable(itemArray[i]);
 					conditionMap.put(formattedCondition, Double.valueOf(itemArray[i+1]));
 				}
@@ -44,10 +52,8 @@ public class FileParser {
 			}
 			br.close();
 		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

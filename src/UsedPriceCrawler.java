@@ -28,6 +28,7 @@ public class UsedPriceCrawler {
 	//This is the lowest of the min Prices so that we know when to stop searching
 	private double maxMinPrice=0;
 	private boolean exceededMaxMin=false;
+	private String url;
 	
 
 	/**
@@ -257,6 +258,11 @@ public class UsedPriceCrawler {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+		this.url=url;
+		return url;
+	}
+	
+	public String getURL(){
 		return url;
 	}
 

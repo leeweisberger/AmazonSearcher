@@ -24,10 +24,11 @@ public class Emailer {
 	 * Send email.
 	 *
 	 * @param underMap the map containing conditions under the threshold
+	 * @param urlMap 
 	 * @param asin the asin
 	 * @param threshMap the given map with price thresholds
 	 */
-	public static void sendEmail(Map<String, Map<String, Double>> underMap, Map<String, Map<String, Double>> minPriceMap){
+	public static void sendEmail(Map<String, Map<String, Double>> underMap, Map<String, Map<String, Double>> minPriceMap, Map<String, String> urlMap){
 		StringBuilder body = new StringBuilder();
 		NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
 		for(String asin : underMap.keySet()){
@@ -37,6 +38,8 @@ public class Emailer {
 				body.append(": " + "Your threshold was " + currencyFormatter.format(minPriceMap.get(asin).get(condition)) + " and the new price is " + currencyFormatter.format(underMap.get(asin).get(condition)));
 				body.append("\n\n");
 			}
+			body.append(urlMap.get(asin) + "\n\n\n");
+
 		}
 		body.append("Happy Shopping!");
 
