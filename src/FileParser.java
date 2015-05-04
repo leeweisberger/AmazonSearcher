@@ -38,6 +38,7 @@ public class FileParser {
 			line=br.readLine();
 			while ((line = br.readLine()) != null)   {
 				String[] itemArray = line.split(",");
+				
 				if(itemArray.length==0)continue;
 				if(!itemArray[0].equals("X"))continue;
 				String asin = Isbn13to10(itemArray[1]);

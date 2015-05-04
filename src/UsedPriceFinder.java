@@ -25,6 +25,7 @@ public class UsedPriceFinder {
 
 
 	public static void main(String[] args) {
+		
 		if(isOutOfTimeRange(BEGIN_TIME, END_TIME))
 			return;
 		System.out.println(System.currentTimeMillis());
@@ -33,7 +34,7 @@ public class UsedPriceFinder {
 		Map<String, String> urlMap = new HashMap<String,String>();
 		for(String asin : minPriceMap.keySet()){
 			System.out.println(asin + " : " + minPriceMap.get(asin));
-			UsedPriceCrawler crawler = new UsedPriceCrawler(asin, minPriceMap.get(asin));
+			UsedPriceCrawler2 crawler = new UsedPriceCrawler2(asin, minPriceMap.get(asin));
 			Map<String, Double> map = crawler.getBestPriceMap();
 			String url = crawler.getURL();
 			urlMap.put(asin, url);
