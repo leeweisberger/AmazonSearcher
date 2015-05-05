@@ -1,9 +1,0 @@
-453434,Used-VeryGood,7.89
-7674,Used-VeryGood,4.69,Used-LikeNew,2.79
-959493,Used-VeryGood,6.89,Used-LikeNew,2.79
-892938,Used-Acceptable,7.89,Used-VeryGood,8.5
-1920,Used-VeryGood,6.89,Used-LikeNew,2.79
-99999,Used-VeryGood,4.69,Used-LikeNew,2.79
-99999,Used-VeryGood,4.69,Used-LikeNew,2.79
-11111,Used-LikeNew,122
-11111,Used-LikeNew,122,Used-LikeNew,
