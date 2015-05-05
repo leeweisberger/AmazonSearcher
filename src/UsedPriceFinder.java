@@ -44,8 +44,8 @@ public class UsedPriceFinder {
 			if(map.size()>0 && !wasSentLastDay(asin))
 				underMap.put(asin, map);
 		}
-//		if(underMap.size()>0)
-//			Emailer.sendEmail(underMap, minPriceMap, urlMap);
+		if(underMap.size()>0)
+			Emailer.sendEmail(underMap, minPriceMap, urlMap);
 
 	}
 
