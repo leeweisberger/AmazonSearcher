@@ -14,19 +14,21 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 
 public class UsedPriceFinder {
+	private static final String TIME_ZONE = "America/New_York";
 	private static final int MS_IN_DAY = 86400000;
 	private static final String LAST_DAY_TXT = "last_day.txt";
 	public static final String FILE_NAME = "Amazon_Form.xlsm.csv";
-	public static final String BEGIN_TIME = "06:00:00";
-	public static final String END_TIME = "23:00:00";
+	public static final int BEGIN_HOUR = 6;
+	public static final int END_HOUR = 23;
 
 
 	public static void main(String[] args) {
 		
-		if(isOutOfTimeRange(BEGIN_TIME, END_TIME))
+		if(isOutOfTimeRange(BEGIN_HOUR, END_HOUR))
 			return;
 		System.out.println(System.currentTimeMillis());
 		Map<String, Map<String,Double>> minPriceMap = FileParser.readFileToMap(FILE_NAME);
@@ -42,30 +44,20 @@ public class UsedPriceFinder {
 			if(map.size()>0 && !wasSentLastDay(asin))
 				underMap.put(asin, map);
 		}
-		if(underMap.size()>0)
-			Emailer.sendEmail(underMap, minPriceMap, urlMap);
+//		if(underMap.size()>0)
+//			Emailer.sendEmail(underMap, minPriceMap, urlMap);
 
 	}
 
-
-	@SuppressWarnings("deprecation")
-	private static boolean isOutOfTimeRange(String beginTime, String endTime) {
-		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+	private static boolean isOutOfTimeRange(int beginHour, int endHour) {
+		TimeZone.setDefault(TimeZone.getTimeZone(TIME_ZONE));
 		Calendar cal = Calendar.getInstance();
-		cal.getTime();
-		String currentTime = sdf.format(cal.getTime());
-		Date beginDate=null;
-		Date endDate=null;
-		Date currentDate=null;
-		try {
-			beginDate = sdf.parse(beginTime);
-			endDate = sdf.parse(endTime);
-			currentDate = sdf.parse(currentTime);
-
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		if(currentDate.getHours()<beginDate.getHours() || currentDate.getHours()>endDate.getHours())
+		
+		System.out.println(cal.get(cal.HOUR_OF_DAY));
+		System.out.println(beginHour);
+		System.out.println(endHour);
+		
+		if(cal.get(cal.HOUR_OF_DAY)<beginHour || cal.get(cal.HOUR_OF_DAY)>endHour)
 			return true;
 		return false;
 
