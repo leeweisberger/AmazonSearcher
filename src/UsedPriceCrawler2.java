@@ -22,7 +22,6 @@ public class UsedPriceCrawler2 {
 	private static final String PRICE_LABEL = "span[class=a-size-large a-color-price olpOfferPrice a-text-bold]";
 	private static final String FREE = "FREE";
 	private static final String SHIPPING = "shipping";
-	private  final String ENDPOINT = "webservices.amazon.com";
 
 	private Map<String, Double> minPriceMap;
 	private String asin;
