@@ -18,7 +18,7 @@ public class Emailer {
 	public static String EMAIL_FROM = "amazon.updator@gmail.com";
 	public static String EMAIL_PASSWORD = "emailerpassword";
 	public static String EMAIL_TO = "amyngilbert@gmail.com";
-	public static String EMAIL_TO2 = "lweisberger5@gmail.com";
+//	public static String EMAIL_TO2 = "lweisberger5@gmail.com";
 
 	public static String EMAIL_SUBJECT = "An Item Has Dropped Below Your Price Threshold!";
 
@@ -46,7 +46,7 @@ public class Emailer {
 		body.append("Happy Shopping!");
 
 		sendEmail(EMAIL_FROM, EMAIL_PASSWORD, EMAIL_TO, EMAIL_SUBJECT, body.toString());
-		sendEmail(EMAIL_FROM, EMAIL_PASSWORD, EMAIL_TO2, EMAIL_SUBJECT, body.toString());
+//		sendEmail(EMAIL_FROM, EMAIL_PASSWORD, EMAIL_TO2, EMAIL_SUBJECT, body.toString());
 
 	}
 
