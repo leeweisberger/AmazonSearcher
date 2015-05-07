@@ -22,10 +22,7 @@ public class UsedPriceCrawler2 {
 	private static final String PRICE_LABEL = "span[class=a-size-large a-color-price olpOfferPrice a-text-bold]";
 	private static final String FREE = "FREE";
 	private static final String SHIPPING = "shipping";
-	private  final String AWS_ACCESS_KEY_ID = "AKIAICPTVFQ6GMX4B66Q";
-	private  final String AWS_SECRET_KEY = "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";
 	private  final String ENDPOINT = "webservices.amazon.com";
-	private  final String ASSOCIATE_TAG = "bookseller03-20";
 
 	private Map<String, Double> minPriceMap;
 	private String asin;
