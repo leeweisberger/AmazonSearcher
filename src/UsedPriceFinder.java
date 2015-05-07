@@ -29,8 +29,10 @@ public class UsedPriceFinder {
 
 	public static void main(String[] args) throws FileNotFoundException, DbxException, IOException {
 		
-		if(isOutOfTimeRange(BEGIN_HOUR, END_HOUR))
+		if(isOutOfTimeRange(BEGIN_HOUR, END_HOUR)){
+			System.out.println("Application stopped because it is out of the user's preferred contact time");
 			return;
+		}
 		DropBoxWriter.downloadAndSaveToFile();
 		System.out.println(System.currentTimeMillis());
 		Map<String, Map<String,Double>> minPriceMap = FileParser.readFileToMap(CSV_FILE_NAME);
